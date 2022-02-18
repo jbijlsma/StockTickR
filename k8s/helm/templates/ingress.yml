@@ -1,0 +1,35 @@
+{{- if .Values.IngressEnabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    # Rewrite what is send to the backend service
+    # An alternative is to not pass the sub path to the backend service: nginx.ingress.kubernetes.io/rewrite-target: /
+    # But that does not work with an MVC app
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # Since the tls section has been commented out and we rely on the wildcard certificate this is not needed anymore
+    # cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  # Leaving this here will issue a new tls certificate for {{ .Release.Name }}.dotnet-works.com
+  # By leaving is out we can use the generic Ingress configuration and default TLS certificate for *.dotnet-works.com
+  # See the k8s/certs repo 
+  #  tls:
+  #    - hosts:
+  #        - {{ .Release.Name }}.dotnet-works.com
+  #      secretName: {{ .Release.Name }}-dotnet-works-com-tls
+  rules:
+    - host: {{ .Release.Name }}.dotnet-works.com
+      http:
+        paths:
+            - path: /?(.*)
+              pathType: Prefix
+              backend:
+                service:
+                  name: {{ .Release.Name }}-service
+                  port:
+                    number: {{ .Values.ServicePort }}
+  {{- end }}

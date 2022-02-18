@@ -1,0 +1,7 @@
+helm template '.' --output-dir '.yamls'
+
+helm upgrade stock-tickr . --dry-run --debug --install
+
+helm upgrade stock-tickr . --install
+
+helm delete stock-tickr

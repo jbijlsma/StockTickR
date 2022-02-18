@@ -1,0 +1,6 @@
+PrivateContainerRegistry: "localhost:5001/" #"registry.digitalocean.com/dnw2022/ or dnw2022/ for docker hub"
+Namespace: default
+ServicePort: 5050
+IngressEnabled: false
+IstioGatewayEnabled: true
+IstioGatewayName: "istio-system/istio-gateway"
