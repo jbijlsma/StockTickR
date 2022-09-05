@@ -1,6 +1,12 @@
 # Getting Started
 
-Make sure you created a k8s cluster using the k8s-certs project.  
+Make sure you created a k8s cluster using the k8s-certs project.
+
+The install this app in local cluster:
+
+```
+./deploy_local.sh
+```
 
 The install this app in the cluster with:
 
@@ -20,4 +26,3 @@ The browse to:
 ```
 https://stock-tickr.dotnet-works.com
 ```
-
